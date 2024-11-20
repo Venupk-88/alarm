@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
-import React, {useState} from 'react';
-import {colors} from '../global';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useState } from 'react';
+import { colors } from '../global';
+import ScalableText from 'react-native-text';
 
-export default function ({activeDays = [], onChange = () => null}) {
+export default function ({ activeDays = [], onChange = () => null }) {
   // NOTICE: days doesn't change if prop activeDays changes
   const [days, setDays] = useState(activeDays);
 
@@ -31,22 +32,22 @@ export default function ({activeDays = [], onChange = () => null}) {
   );
 }
 
-function Day({isActive, dayIndex, onUpdate}) {
+function Day({ isActive, dayIndex, onUpdate }) {
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <TouchableOpacity
         style={[
           isActive ? styles.selectedBtn : styles.unselectedBtn,
           styles.btnContainer,
         ]}
         onPress={() => onUpdate(dayIndex)}>
-        <Text
+        <ScalableText
           style={[
             styles.text,
             isActive ? styles.selectedText : styles.unselectedText,
           ]}>
           {getDay(dayIndex)}
-        </Text>
+        </ScalableText>
       </TouchableOpacity>
     </View>
   );

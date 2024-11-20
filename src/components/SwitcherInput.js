@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {View, Switch, Text, StyleSheet} from 'react-native';
-import {colors} from '../global';
+import { View, Switch, Text, StyleSheet } from 'react-native';
+// import { color } from 'react-native-reanimated';
+import { colors } from '../global';
 
-export default function ({value, onChange, description}) {
+export default function ({ value, onChange, description }) {
   return (
     <View style={styles.container}>
       <View style={styles.leftContainer}>
@@ -12,7 +13,8 @@ export default function ({value, onChange, description}) {
       <View style={styles.rightContainer}>
         <Switch
           ios_backgroundColor={'black'}
-          trackColor={{false: colors.GREY, true: colors.BLUE}}
+          thumbColor={colors.BLUE}
+          trackColor={{ false: colors.GREY, true: colors.BLUE }}
           value={value}
           onValueChange={value => onChange(value)}
         />
@@ -24,7 +26,7 @@ export default function ({value, onChange, description}) {
 const styles = StyleSheet.create({
   container: {
     width: '100%',
-    height: 80,
+    height: 50,
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -42,6 +44,6 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontWeight: 'bold',
-    color: colors.BLUE,
+    // color: colors.BLUE,
   },
 });

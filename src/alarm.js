@@ -10,6 +10,45 @@ export async function scheduleAlarm(alarm) {
     alarm = new Alarm(alarm);
   }
   try {
+
+    
+    var dummyhour=alarm.dummyhour
+    var dummyminutes=alarm.dummyminutes
+    var repeating=alarm.repeating 
+    var dummydays=alarm.days 
+    alarm.dummydays = dummydays
+    var timezoneName=alarm.timezoneName
+    var timezoneValue='UTC'
+    var offset = -6;  
+      if(timezoneName==100){ 
+        alarm.hour = dummyhour
+        alarm.minutes = dummyminutes
+        alarm.dummytimezoneName = 'UTC-6'
+      }else{ 
+    var timezoneResult = parseInt(timezoneName) + parseInt(offset); 
+    timezoneValue = timezoneValue + (timezoneResult >= 0 ? '+' : '') + timezoneResult;
+    const date = new Date();
+    date.setHours(dummyhour, dummyminutes); 
+    const utcMinus6Time = new Date(date.getTime() + (timezoneName * 60 * 60000));
+    
+    alarm.hour = utcMinus6Time.getHours(); 
+    alarm.minutes = utcMinus6Time.getMinutes(); 
+    alarm.dummytimezoneName = timezoneValue
+    if (utcMinus6Time.getHours() < dummyhour && timezoneName > 0) { 
+      alarm.days = dummydays.map(days => (days + 1) % 7);
+    }
+    if (utcMinus6Time.getHours() > dummyhour && timezoneName < 0) { 
+      alarm.days = dummydays.map(days => (days - 1) % 7);
+    }
+      }
+      
+    if (dummydays.length === 0 || !repeating) {
+      const today = new Date().getDay();  
+      alarm.days = [today];
+      alarm.dummydays = [today];
+    } 
+   
+
     await AlarmService.set(alarm.toAndroid());
     console.log('scheduling alarm: ', JSON.stringify(alarm));
   } catch (e) {
@@ -34,7 +73,7 @@ export async function disableAlarm(uid) {
 }
 
 export async function stopAlarm() {
-  try {
+  try { 
     await AlarmService.stop();
   } catch (e) {
     console.log(e);
@@ -42,7 +81,7 @@ export async function stopAlarm() {
 }
 
 export async function snoozeAlarm() {
-  try {
+  try {  
     await AlarmService.snooze();
   } catch (e) {
     console.log(e);
@@ -62,7 +101,43 @@ export async function updateAlarm(alarm) {
     alarm = new Alarm(alarm);
   }
   try {
+    var dummyhour=alarm.dummyhour
+    var dummyminutes=alarm.dummyminutes
+    var repeating=alarm.repeating 
+    var dummydays=alarm.days 
+    alarm.dummydays = dummydays
+    var timezoneName=alarm.timezoneName
+    var timezoneValue='UTC'
+    var offset = -6;  
+      if(timezoneName==100){ 
+        alarm.hour = dummyhour
+        alarm.minutes = dummyminutes
+        alarm.dummytimezoneName = 'UTC-6'
+      }else{ 
+    var timezoneResult = parseInt(timezoneName) + parseInt(offset); 
+    timezoneValue = timezoneValue + (timezoneResult >= 0 ? '+' : '') + timezoneResult;
+    const date = new Date();
+    date.setHours(dummyhour, dummyminutes); 
+    const utcMinus6Time = new Date(date.getTime() + (timezoneName * 60 * 60000));
+    
+    alarm.hour = utcMinus6Time.getHours(); 
+    alarm.minutes = utcMinus6Time.getMinutes(); 
+    alarm.dummytimezoneName = timezoneValue
+    if (utcMinus6Time.getHours() < dummyhour && timezoneName > 0) { 
+      alarm.days = dummydays.map(days => (days + 1) % 7);
+    }
+    if (utcMinus6Time.getHours() > dummyhour && timezoneName < 0) { 
+      alarm.days = dummydays.map(days => (days - 1) % 7);
+    }
+      }
+      
+    if (dummydays.length === 0 || !repeating) {
+      const today = new Date().getDay();  
+      alarm.days = [today];
+      alarm.dummydays = [today];
+    } 
     await AlarmService.update(alarm.toAndroid());
+    console.log('updated alarm: ', JSON.stringify(alarm));
   } catch (e) {
     console.log(e);
   }
@@ -114,6 +189,12 @@ export default class Alarm {
     this.repeating = getParam(params, 'repeating', false);
     this.active = getParam(params, 'active', true);
     this.days = getParam(params, 'days', [new Date().getDay()]);
+    this.soundName = getParam(params, 'soundName', 'bird');
+    this.timezoneName = getParam(params, 'timezoneName', 100);
+    this.dummyhour = getParam(params, 'dummyhour', new Date().getHours());
+    this.dummyminutes = getParam(params, 'dummyminutes', new Date().getMinutes() + 1);
+    this.dummydays = getParam(params, 'dummydays', [new Date().getDay()]);
+    this.dummytimezoneName = getParam(params, 'dummytimezoneName', 'UTC-6');
   }
 
   static getEmpty() {
@@ -124,6 +205,12 @@ export default class Alarm {
       minutes: 0,
       repeating: false,
       days: [],
+      soundName: 'bird',
+      timezoneName: 100,
+      dummyhour: 0,
+      dummyminutes: 0,
+      dummydays: [],
+      dummytimezoneName: 'UTC-6',
     });
   }
 

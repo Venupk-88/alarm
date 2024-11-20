@@ -2,8 +2,10 @@ package com.alarm;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.Date;
+
 
 public class Manager {
 
@@ -105,9 +107,10 @@ public class Manager {
     }
 
     static void start(Context context, String alarmUid) {
+        Alarm alarm = Storage.getAlarm(context, alarmUid);
         activeAlarmUid = alarmUid;
         sound = new Sound(context);
-        sound.play("default");
+        sound.play(alarm.soundName);
 
         Log.d(TAG, "Starting " + activeAlarmUid);
     }
@@ -134,6 +137,7 @@ public class Manager {
 
     static void snooze(Context context) {
         Log.d(TAG, "Snoozing " + activeAlarmUid);
+        // Toast.makeText(context, "Snoozing: " + activeAlarmUid, Toast.LENGTH_LONG).show();
 
         sound.stop();
         Alarm alarm = Storage.getAlarm(context, activeAlarmUid);

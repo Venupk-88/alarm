@@ -1,9 +1,9 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 import 'react-native-gesture-handler';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 import Home from './screens/Alarms';
 import Settings from './screens/Edit';
@@ -32,19 +32,19 @@ export default function () {
         <Stack.Screen
           name="Edit"
           component={Settings}
-          options={{...headerStyles, title: 'Alarm'}}
+          options={{ ...headerStyles, title: 'Alarm' }}
         />
         <Stack.Screen
           name="Ring"
           component={Ring}
-          options={{headerShown: false}}
+          options={{ headerShown: false }}
         />
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
 
-function AddButton({title, onPress}) {
+function AddButton({ title, onPress }) {
   return (
     <TouchableOpacity
       style={styles.button}

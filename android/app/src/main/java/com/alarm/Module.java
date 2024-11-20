@@ -115,6 +115,11 @@ public class Module extends ReactContextBaseJavaModule {
 
     private Alarm parseAlarmObject (ReadableMap alarm) {
         String uid = alarm.getString("uid");
+        String soundName = alarm.getString("soundName");
+        int timezoneName = alarm.getInt("timezoneName");
+        String dummytimezoneName = alarm.getString("dummytimezoneName");
+        int dummyhour = alarm.getInt("dummyhour");
+        int dummyminutes = alarm.getInt("dummyminutes");
         String title = alarm.getString("title");
         String description = alarm.getString("description");
         int hour = alarm.getInt("hour");
@@ -122,6 +127,7 @@ public class Module extends ReactContextBaseJavaModule {
         int snoozeInterval = alarm.getInt("snoozeInterval");
         boolean repeating = alarm.getBoolean("repeating");
         boolean active = alarm.getBoolean("active");
+
         ArrayList<Integer> days = new ArrayList<>();
         if (!alarm.isNull("days")) {
             ReadableArray rawDays = alarm.getArray("days");
@@ -129,18 +135,32 @@ public class Module extends ReactContextBaseJavaModule {
                 days.add(rawDays.getInt(i));
             }
         }
-        return new Alarm(uid, days, hour, minutes, snoozeInterval, title, description, repeating, active);
+
+        ArrayList<Integer> dummydays = new ArrayList<>();
+        if (!alarm.isNull("dummydays")) {
+            ReadableArray rawDays = alarm.getArray("dummydays");
+            for (int i = 0; i < rawDays.size(); i++) {
+                dummydays.add(rawDays.getInt(i));
+            }
+        }
+        return new Alarm(uid,soundName,timezoneName,dummytimezoneName,dummyhour,dummyminutes,days,dummydays, hour, minutes, snoozeInterval, title, description, repeating, active);
     }
 
     private WritableMap serializeAlarmObject (Alarm alarm) {
         WritableNativeMap map = new WritableNativeMap();
         map.putString("uid", alarm.uid);
         map.putString("title", alarm.title);
+        map.putString("soundName", alarm.soundName);
+        map.putInt("timezoneName", alarm.timezoneName);
+        map.putString("dummytimezoneName", alarm.dummytimezoneName);
+        map.putInt("dummyhour", alarm.dummyhour);
+        map.putInt("dummyminutes", alarm.dummyminutes);
         map.putString("description", alarm.description);
         map.putInt("hour", alarm.hour);
         map.putInt("minutes", alarm.minutes);
         map.putInt("snoozeInterval", alarm.snoozeInterval);
         map.putArray("days", serializeArray(alarm.days));
+        map.putArray("dummydays", serializeArray(alarm.dummydays));
         map.putBoolean("repeating", alarm.repeating);
         map.putBoolean("active", alarm.active);
         return map;

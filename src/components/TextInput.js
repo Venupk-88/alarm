@@ -1,13 +1,14 @@
 /* eslint-disable prettier/prettier */
 import React from 'react';
-import {TextInput, View, StyleSheet, Text} from 'react-native';
-import {colors} from '../global';
+import { TextInput, View, StyleSheet, Text } from 'react-native';
+import { colors } from '../global';
+import ScalableText from 'react-native-text';
 
-export default function ({onChangeText, value, description}) {
+export default function ({ onChangeText, value, description }) {
   return (
     <View style={styles.container}>
       <View style={styles.descriptionContainer}>
-        <Text style={styles.descriptionText}>{description}</Text>
+        <ScalableText style={styles.descriptionText}>{description}</ScalableText>
       </View>
       <TextInput
         style={styles.textInput}
@@ -38,6 +39,6 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontWeight: 'bold',
-    color: colors.BLUE,
+    // color: colors.BLUE,
   },
 });

@@ -1,9 +1,10 @@
 /* eslint-disable prettier/prettier */
-import {StyleSheet} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 export const colors = {
   GREY: '#d0d5dc',
   BLUE: '#1992fe',
+  black: '#000',
 };
 
 export const globalStyles = StyleSheet.create({

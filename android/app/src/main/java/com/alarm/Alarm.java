@@ -11,7 +11,13 @@ public class Alarm implements Cloneable {
 
     String uid;
     ArrayList<Integer> days;
+    ArrayList<Integer> dummydays;
     int hour;
+    String soundName;
+    int timezoneName;
+    String dummytimezoneName;
+    int dummyhour;
+    int dummyminutes;
     int minutes;
     int snoozeInterval;
     String title;
@@ -19,9 +25,15 @@ public class Alarm implements Cloneable {
     boolean repeating;
     boolean active;
 
-    Alarm(String uid, ArrayList<Integer> days, int hour, int minutes, int snoozeInterval, String title, String description, boolean repeating, boolean active) {
+    Alarm(String uid,String soundName,int timezoneName, String dummytimezoneName,int dummyhour,int dummyminutes, ArrayList<Integer> days, ArrayList<Integer> dummydays,  int hour, int minutes, int snoozeInterval, String title, String description, boolean repeating, boolean active) {
         this.uid = uid;
         this.days = days;
+        this.dummydays = dummydays;
+        this.soundName = soundName;
+        this.timezoneName = timezoneName;
+        this.dummytimezoneName = dummytimezoneName;
+        this.dummyhour = dummyhour;
+        this.dummyminutes = dummyminutes;
         this.hour = hour;
         this.minutes = minutes;
         this.snoozeInterval = snoozeInterval;
